@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InterfazEmpleadoController">
+    <children>
+      <SplitPane dividerPositions="0.7603603603603604" orientation="VERTICAL" prefHeight="557.0" prefWidth="804.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView fx:id="tablaEmpleados" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="23.0" layoutY="14.0" text="Apellido:" />
+                  <TextField fx:id="txtApellido" layoutX="80.0" layoutY="10.0" prefHeight="24.0" prefWidth="192.0" />
+                  <Label layoutX="292.0" layoutY="14.0" text="Nombres:" />
+                  <TextField fx:id="txtNombres" layoutX="354.0" layoutY="10.0" prefHeight="24.0" prefWidth="206.0" />
+                  <Label layoutX="600.0" layoutY="14.0" text="CUIL:" />
+                  <TextField fx:id="txtCuil" layoutX="639.0" layoutY="10.0" />
+                  <Label layoutX="17.0" layoutY="52.0" text="Direccion:" />
+                  <TextField fx:id="txtDireccion" layoutX="80.0" layoutY="48.0" prefHeight="24.0" prefWidth="453.0" />
+                  <Label layoutX="580.0" layoutY="52.0" text="Telefono:" />
+                  <TextField fx:id="txtTelefono" layoutX="639.0" layoutY="48.0" />
+                  <Label layoutX="10.0" layoutY="93.0" text="Fecha Nacimiento:" />
+                  <DatePicker fx:id="dateFechaNacimiento" layoutX="119.0" layoutY="89.0" prefHeight="24.0" prefWidth="122.0" />
+                  <Label layoutX="280.0" layoutY="93.0" text="Fecha Ingreso:" />
+                  <DatePicker fx:id="dateFechaIngreso" layoutX="368.0" layoutY="89.0" prefHeight="24.0" prefWidth="122.0" />
+                  <Button fx:id="btnNuevo" layoutX="523.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnNuevoAction" prefHeight="24.0" prefWidth="81.0" text="Nuevo" />
+                  <Button fx:id="btnAgregar" layoutX="616.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnAgregarAction" prefHeight="24.0" prefWidth="81.0" text="Guardar" />
+                  <Button fx:id="btnCancelar" disable="true" layoutX="707.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnCancelarAction" prefHeight="24.0" prefWidth="81.0" text="Cancelar" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
