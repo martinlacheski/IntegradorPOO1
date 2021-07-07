@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="174.0" prefWidth="557.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="vista.VistaPrincipalController">
+   <children>
+      <Button fx:id="btnEmpleado" layoutX="66.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnEmpleadoAction" prefHeight="25.0" prefWidth="90.0" text="Empleados" />
+      <Button fx:id="btnProductor" layoutX="66.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnProductorAction" prefHeight="25.0" prefWidth="90.0" text="Productores" />
+      <Button fx:id="btnLote" layoutX="221.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnLoteAction" prefHeight="25.0" prefWidth="90.0" text="Lotes" />
+      <Button fx:id="btnCosecha" layoutX="221.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnCosechaAction" prefHeight="25.0" prefWidth="90.0" text="Cosechas" />
+      <Button fx:id="btnReporte" layoutX="389.0" layoutY="41.0" mnemonicParsing="false" onAction="#btnReporteAction" prefHeight="25.0" prefWidth="90.0" text="Reportes" />
+      <Button fx:id="btnSalir" layoutX="389.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnSalirAction" prefHeight="25.0" prefWidth="90.0" text="Salir" />
+   </children>
+</AnchorPane>

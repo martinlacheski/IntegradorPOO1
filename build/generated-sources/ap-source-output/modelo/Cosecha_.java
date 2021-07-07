@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import modelo.DetalleCosecha;
 import modelo.Lote;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-07-07T16:05:37", comments="EclipseLink-2.7.7.v20200504-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-07-07T19:23:47", comments="EclipseLink-2.7.7.v20200504-rNA")
 @StaticMetamodel(Cosecha.class)
 public class Cosecha_ { 
 

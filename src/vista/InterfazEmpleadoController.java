@@ -1,5 +1,7 @@
 package vista;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -7,12 +9,17 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -24,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import logica.ControladoraEmpleado;
@@ -382,6 +390,30 @@ public class InterfazEmpleadoController implements Initializable {
         txtApellido.selectAll();
         btnCancelar.setDisable(true);
         btnNuevo.setDisable(false);
+    }
+
+    public void closeWindows() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/VistaPrincipal.fxml"));
+            //Genero una ruta absoluta de la vista con lo siguiente:
+            
+            Parent root = loader.load();
+            
+            VistaPrincipalController controlador = loader.getController();
+            
+            //URI uri = Paths.get("src/vista/InterfazEmpleado.fxml").toAbsolutePath().toUri();
+            //Parent root;
+            //root = FXMLLoader.load(uri.toURL());
+            
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();  
+            
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

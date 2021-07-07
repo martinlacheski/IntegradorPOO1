@@ -565,6 +565,7 @@ public class InterfazCosechaController implements Initializable {
                         limpiarDetalle();
                         cmbEmpleado.requestFocus();
                         listarCosechas();
+                        listarDetalle();
                         listarProductores();
                         listarEmpleados();
                         //listarDetalle();

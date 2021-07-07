@@ -15,11 +15,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {       
         
-        //Genero una ruta absoluta de la vista con lo siguiente:
+         //Genero una ruta absoluta de la vista con lo siguiente:
         //URI uri = Paths.get("src/vista/InterfazEmpleado.fxml").toAbsolutePath().toUri();
         //URI uri = Paths.get("src/vista/InterfazProductor.fxml").toAbsolutePath().toUri();
         //URI uri = Paths.get("src/vista/InterfazLote.fxml").toAbsolutePath().toUri();
-        URI uri = Paths.get("src/vista/InterfazCosecha.fxml").toAbsolutePath().toUri();
+        //URI uri = Paths.get("src/vista/InterfazCosecha.fxml").toAbsolutePath().toUri();
+        URI uri = Paths.get("src/vista/VistaPrincipal.fxml").toAbsolutePath().toUri();
         
         Parent root = FXMLLoader.load(uri.toURL());
         Scene scene = new Scene(root);
@@ -29,11 +30,7 @@ public class App extends Application {
 }
 
     public static void main(String[] args) {
-
         launch(args);
-        //InterfazEmpleado ventana = new InterfazEmpleado();
-        //ventana.setVisible(true);
-        //ventana.setLocationRelativeTo(null);
     }
     
 }

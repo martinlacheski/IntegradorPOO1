@@ -119,9 +119,7 @@ public class Cosecha implements Serializable {
     //Metodo toString
     @Override
     public String toString() {
-        return "Cosecha{" + "fechaCosecha= " + fechaCosecha + ", lote = " + 
-                lote + ", kgsCampo= " + kgsCampo + ", kgsSecadero= " + 
-                kgsSecadero + ", kgsCosecha= " + kgsCosecha + '}';
+        return "fechaCosecha: " + fechaCosecha + " -- lote: " + lote ;
     }
     
     //Metodo obtener detalle de la cosecha por el empleado
