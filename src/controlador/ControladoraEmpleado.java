@@ -79,7 +79,5 @@ public class ControladoraEmpleado {
         
         //Llamamos al metodo de la persistencia para realizar la actualizacion
         controladoraEmpleado.actualizarEmpleado(empleado);
-    }
-   
-    
+    } 
 }

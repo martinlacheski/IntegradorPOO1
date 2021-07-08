@@ -67,6 +67,12 @@ public class InterfazLoteController implements Initializable {
     private TextArea txtNombreLote;
 
     @FXML
+    private TextField txtLoteID;
+
+    @FXML
+    private TextField txtCuadroID;
+
+    @FXML
     private Button btnNuevoCuadro;
 
     @FXML
@@ -85,7 +91,6 @@ public class InterfazLoteController implements Initializable {
     //Inicializamos variables Objeto para uso interno
     private Productor productorSeleccionado;
     private Lote loteSeleccionado;
-    private Lote loteGuardado;
     private Cuadro cuadroSeleccionado;
 
     public void listarProductores() {
@@ -151,9 +156,14 @@ public class InterfazLoteController implements Initializable {
         //Filtramos los cuadros que pertenecen al Lote seleccionado
         List<Cuadro> listaFiltrada = new ArrayList<Cuadro>();
         for (Cuadro cuadro : cuadros) {
-            if (cuadro.getLote().getIdLote() == loteGuardado.getIdLote()) {
-                listaFiltrada.add(cuadro);
+            try {
+                if (cuadro.getLote().getIdLote() == loteSeleccionado.getIdLote()) {
+                    listaFiltrada.add(cuadro);
+                }
+            } catch (Exception ex) {
+
             }
+
         }
 
         //Se tiene que pasar el OBSERVABLE a un array
@@ -287,8 +297,16 @@ public class InterfazLoteController implements Initializable {
                         a.setContentText("Lote eliminado correctamente");
                         a.show();
                         limpiarLote();
+                        //Limpiamos los items y columnas para asegurarnos
+                        tablaLotes.getItems().clear();
+                        tablaLotes.getColumns().clear();
+                        
+                        tablaCuadros.getItems().clear();
+                        tablaCuadros.getColumns().clear();
                         cmbProductor.requestFocus();
+                        
                         listarLotes();
+
                     } catch (Exception ex) {
                         a = new Alert(Alert.AlertType.ERROR);
                         a.setTitle("Error");
@@ -362,14 +380,15 @@ public class InterfazLoteController implements Initializable {
 
     @FXML
     void clickTablaLotes(MouseEvent event) {
+
         int index = tablaLotes.getSelectionModel().getSelectedIndex();
         loteSeleccionado = tablaLotes.getItems().get(index);
-        loteGuardado = tablaLotes.getItems().get(index);
+        txtLoteID.setText(String.valueOf(loteSeleccionado.getIdLote()));
         //cmbProductor.setItems(loteSeleccionado.getProductor().getLegajo());
         cmbProductor.setValue(loteSeleccionado.getProductor());
         txtNombreLote.setText(loteSeleccionado.getNombreLote());
         txtDireccionLote.setText(loteSeleccionado.getDireccionLote());
-        System.out.println(loteGuardado);
+        //System.out.println(loteSeleccionado);
         listarCuadros();
     }
 
@@ -382,7 +401,6 @@ public class InterfazLoteController implements Initializable {
     @FXML
     void btnNuevoLoteAction(ActionEvent event) {
         limpiarLote();
-        loteGuardado = null;
         loteSeleccionado = null;
     }
 
@@ -453,7 +471,7 @@ public class InterfazLoteController implements Initializable {
 
     @FXML
     void btnAgregarCuadroAction(ActionEvent event) {
-        if (loteGuardado == null) {
+        if (loteSeleccionado == null) {
             // create a alert
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("Error");
@@ -468,7 +486,7 @@ public class InterfazLoteController implements Initializable {
             String nombreCuadro = txtNombreCuadro.getText();
             try {
                 controladoraCuadro = new ControladoraCuadro();
-                controladoraCuadro.altaCuadro(loteGuardado, nombreCuadro);
+                controladoraCuadro.altaCuadro(loteSeleccionado, nombreCuadro);
                 // create a alert
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setTitle("Exito");
@@ -490,7 +508,7 @@ public class InterfazLoteController implements Initializable {
                 String nombreCuadro = txtNombreCuadro.getText();
                 try {
                     controladoraCuadro = new ControladoraCuadro();
-                    controladoraCuadro.actualizarCuadro(cuadroSeleccionado.getIdCuadro(), loteGuardado, nombreCuadro);
+                    controladoraCuadro.actualizarCuadro(cuadroSeleccionado.getIdCuadro(), loteSeleccionado, nombreCuadro);
                     // create a alert
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Exito");

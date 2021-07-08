@@ -28,7 +28,7 @@ public class CuadroControladoraPersistencia {
             //Insertamos dentro de la BD
             jpaCuadro.create(cuadro);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CuadroControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +39,7 @@ public class CuadroControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaCuadro.edit(cuadro);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CuadroControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -50,7 +50,7 @@ public class CuadroControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaCuadro.edit(cuadro);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CuadroControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 }

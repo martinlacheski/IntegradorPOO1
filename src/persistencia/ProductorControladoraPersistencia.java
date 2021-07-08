@@ -28,7 +28,7 @@ public class ProductorControladoraPersistencia {
             //Insertamos dentro de la BD
             jpaProductor.create(productor);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductorControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +39,7 @@ public class ProductorControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaProductor.edit(productor);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductorControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -50,7 +50,7 @@ public class ProductorControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaProductor.edit(productor);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductorControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }    
 }

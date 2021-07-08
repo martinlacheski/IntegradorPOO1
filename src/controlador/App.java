@@ -1,7 +1,5 @@
 package controlador;
 
-//import vista.InterfazEmpleado;
-
 import java.net.URI;
 import java.nio.file.Paths;
 import javafx.application.Application;
@@ -16,10 +14,6 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {       
         
          //Genero una ruta absoluta de la vista con lo siguiente:
-        //URI uri = Paths.get("src/vista/InterfazEmpleado.fxml").toAbsolutePath().toUri();
-        //URI uri = Paths.get("src/vista/InterfazProductor.fxml").toAbsolutePath().toUri();
-        //URI uri = Paths.get("src/vista/InterfazLote.fxml").toAbsolutePath().toUri();
-        //URI uri = Paths.get("src/vista/InterfazCosecha.fxml").toAbsolutePath().toUri();
         URI uri = Paths.get("src/vista/VistaPrincipal.fxml").toAbsolutePath().toUri();
         
         Parent root = FXMLLoader.load(uri.toURL());

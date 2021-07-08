@@ -28,7 +28,7 @@ public class LoteControladoraPersistencia {
             //Insertamos dentro de la BD
             jpaLote.create(lote);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoteControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +39,7 @@ public class LoteControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaLote.edit(lote);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoteControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -50,7 +50,7 @@ public class LoteControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaLote.edit(lote);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoteControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
     

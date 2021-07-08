@@ -11,6 +11,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.ParameterExpression;
 import modelo.Empleado;
 import persistencia.exceptions.NonexistentEntityException;
 
@@ -20,7 +23,7 @@ public class EmpleadoJpaController implements Serializable {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
-    
+
     //Apuntamos la EMF a la UNIDAD DE PERSISTENCIA QUE CREAMOS
     //Ingresamos en nombre de la Unidad de Persistencia en el "persistence.xml"
     public EmpleadoJpaController() {
@@ -184,5 +187,5 @@ public class EmpleadoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

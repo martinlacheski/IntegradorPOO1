@@ -226,6 +226,7 @@ public class InterfazCosechaController implements Initializable {
         listarEmpleados();
         cmbCuadro.getItems().clear();
         listarCuadros();
+        detalleSeleccionado = null;
         txtKilos.setText("0");
         txtDetalleCosechaID.setText("");
     }
@@ -334,7 +335,7 @@ public class InterfazCosechaController implements Initializable {
             Lote lote = cosecha.getLote();
             //kilosCosechaCampo = kilosTotales;
             Double secadero = cosecha.getKgsSecadero();
-            Double diferencia = kilosTotales - secadero;
+            Double diferencia = secadero - kilosTotales;
             this.controladoraCosecha.actualizarKgsCosecha(id, fecha, lote, kilosTotales, secadero, diferencia);
         }
         if (!txtCosechaID.getText().isEmpty()) {
@@ -389,7 +390,7 @@ public class InterfazCosechaController implements Initializable {
         tablaCosecha.setItems(data);
         tablaCosecha.getColumns().addAll(idCol, fechaCol, loteCol, campoCol, secaderoCol, difCol);
         int cosechaID = tablaCosecha.getItems().size();
-        cosechaGuardado = tablaCosecha.getItems().get(cosechaID - 1);
+        //cosechaGuardado = tablaCosecha.getItems().get(cosechaID - 1);
     }
 
     private void listarDetalle() {
@@ -499,6 +500,9 @@ public class InterfazCosechaController implements Initializable {
                         txtCosechaID.setText("");
                         limpiarCosecha();
                         cmbProductor.requestFocus();
+                        //Limpiamos los items y columnas para asegurarnos
+                        tablaDetalle.getItems().clear();
+                        tablaDetalle.getColumns().clear();
                         //Actualizamos el kilaje de la cosecha
                         actualizarKgCosechas();
                         listarCosechas();
@@ -642,7 +646,7 @@ public class InterfazCosechaController implements Initializable {
                 LocalDate fecha = dateFecha.getValue();
                 Lote lote = cmbLote.getValue();
                 Double kgsCampo = Double.parseDouble(txtCampo.getText());
-                Double kgsSecadero = Double.parseDouble(txtCampo.getText());
+                Double kgsSecadero = Double.parseDouble(txtSecadero.getText());
                 Double kgsCosecha = kgsCampo - kgsSecadero;
 
                 try {

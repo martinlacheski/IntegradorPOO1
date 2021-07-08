@@ -26,7 +26,7 @@ import controlador.ControladoraProductor;
 import modelo.Productor;
 
 public class InterfazProductorController implements Initializable {
-    
+
     ControladoraProductor controladoraProductor;
 
     //Necesitamos modificar por el tipo de valor que se va a alojar
@@ -54,12 +54,15 @@ public class InterfazProductorController implements Initializable {
 
     @FXML
     private Button btnCancelar;
-    
+
     //Inicializamos variables de contexto
     private ContextMenu cmOpciones;
 
     //Inicializamos variables Objeto para uso interno
     private Productor productorSeleccionado;
+
+    //Creamos una variable Boolean para comprobar si es nuevo Productor o edicion
+    boolean isEdit;
 
     public void limpiar() {
         txtRazonSocial.setText("");
@@ -80,7 +83,7 @@ public class InterfazProductorController implements Initializable {
         //Obtenemos el listado de elementos
         // asociamos los datos
         List<Productor> productores = this.controladoraProductor.listarProductores();
-         
+
         //Se tiene que pasar el OBSERVABLE a un array
         ObservableList<Productor> data = FXCollections.observableArrayList(productores);
         //Seteamos los valores de las columnas
@@ -140,14 +143,32 @@ public class InterfazProductorController implements Initializable {
             a.show();
             txtTelefono.requestFocus();
         }
+        if (isEdit == false) {
+            ///CHEQUEAMOS QUE NO SE HAYA REGISTRADO UN EMPLEADO CON EL MISMO CUIL
+            controladoraProductor = new ControladoraProductor();
+            //Obtenemos el listado de elementos
+            // asociamos los datos
+            List<Productor> productores = this.controladoraProductor.listarProductores();
+            for (Productor productor : productores) {
+                if (productor.getCuit().equals(cuit)) {
+                    chequear = false;
+                    Alert a = new Alert(AlertType.ERROR);
+                    a.setHeaderText("El CUIL ya se encuentra registrado");
+                    a.show();
+                    txtCuit.requestFocus();
+                    break;
+                }
+            }
+        }
         return chequear;
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        isEdit = false;
         limpiar();
         listarProductores();
-        
+
         //Generamos el menu de contexto CLICK DERECHO
         cmOpciones = new ContextMenu();
         MenuItem miEditar = new MenuItem("Editar");
@@ -160,66 +181,70 @@ public class InterfazProductorController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 int index = tablaProductores.getSelectionModel().getSelectedIndex();
-                productorSeleccionado = tablaProductores.getItems().get(index);              
+                productorSeleccionado = tablaProductores.getItems().get(index);
                 txtRazonSocial.setText(productorSeleccionado.getRazonSocial());
                 txtCuit.setText(productorSeleccionado.getCuit());
                 txtDireccion.setText(productorSeleccionado.getDireccion());
                 txtTelefono.setText(productorSeleccionado.getTelefono());
+                
+                isEdit = true;
                 btnCancelar.setDisable(false);
                 btnNuevo.setDisable(true);
             }
 
         });
-        
+
         //evento ELIMINAR
         miEliminar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 int index = tablaProductores.getSelectionModel().getSelectedIndex();
-                productorSeleccionado = tablaProductores.getItems().get(index);                
+                productorSeleccionado = tablaProductores.getItems().get(index);
                 Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setTitle("Confirmación");
                 a.setHeaderText(null);
-                a.setContentText("Estás seguro de eliminar el Productor: " + productorSeleccionado.getRazonSocial()+ "?");
+                a.setContentText("Estás seguro de eliminar el Productor: " + productorSeleccionado.getRazonSocial() + "?");
                 a.initStyle(StageStyle.UTILITY);
-                Optional<ButtonType> result = a.showAndWait();               
-                if (result.get() == ButtonType.OK){
+                Optional<ButtonType> result = a.showAndWait();
+                if (result.get() == ButtonType.OK) {
                     try {
-                    controladoraProductor = new ControladoraProductor();
-                    controladoraProductor.eliminarProductor(productorSeleccionado.getLegajo(), 
-                            productorSeleccionado.getRazonSocial(),productorSeleccionado.getCuit(),
-                            productorSeleccionado.getDireccion(),productorSeleccionado.getTelefono());
-                    // create a alert
-                    a = new Alert(Alert.AlertType.INFORMATION);
-                    a.setTitle("Exito");
-                    a.setHeaderText(null);
-                    a.setContentText("Productor eliminado correctamente");
-                    a.show();
-                    limpiar();
-                    txtRazonSocial.requestFocus();
-                    txtRazonSocial.selectAll();
-                    listarProductores();
-                } catch (Exception ex) {
-                    a = new Alert(Alert.AlertType.ERROR);
-                    a.setTitle("Error");
-                    a.setHeaderText(null);
-                    a.setContentText("Ocurrió un error al eliminar el Productor");
-                    a.show();
+                        controladoraProductor = new ControladoraProductor();
+                        controladoraProductor.eliminarProductor(productorSeleccionado.getLegajo(),
+                                productorSeleccionado.getRazonSocial(), productorSeleccionado.getCuit(),
+                                productorSeleccionado.getDireccion(), productorSeleccionado.getTelefono());
+                        // create a alert
+                        a = new Alert(Alert.AlertType.INFORMATION);
+                        a.setTitle("Exito");
+                        a.setHeaderText(null);
+                        a.setContentText("Productor eliminado correctamente");
+                        a.show();
+                        limpiar();
+                        txtRazonSocial.requestFocus();
+                        txtRazonSocial.selectAll();
+                        listarProductores();
+                    } catch (Exception ex) {
+                        a = new Alert(Alert.AlertType.ERROR);
+                        a.setTitle("Error");
+                        a.setHeaderText(null);
+                        a.setContentText("Ocurrió un error al eliminar el Productor");
+                        a.show();
+                    }
                 }
-                }                               
             }
         });
         tablaProductores.setContextMenu(cmOpciones);
-        
-    }  
-    
+
+    }
+
     @FXML
     void btnNuevoAction(ActionEvent event) {
         limpiar();
     }
-    
+
     @FXML
     void btnAgregarAction(ActionEvent event) {
+        
+        //Si es un nuevo productor
         if (productorSeleccionado == null) {
             if (chequear() == true) {
                 // Cargo en variables los datos obtenidos de la interfaz       
@@ -227,11 +252,11 @@ public class InterfazProductorController implements Initializable {
                 String cuit = txtCuit.getText();
                 String direccion = txtDireccion.getText();
                 String telefono = txtTelefono.getText();
-                
+
                 try {
                     //Invocamos al metodo de la controladora para dar de alta un nuevo Productor
                     controladoraProductor = new ControladoraProductor();
-                    controladoraProductor.altaProductor(razonSocial, cuit, 
+                    controladoraProductor.altaProductor(razonSocial, cuit,
                             direccion, telefono);
                     // create a alert
                     Alert a = new Alert(AlertType.INFORMATION);
@@ -251,18 +276,19 @@ public class InterfazProductorController implements Initializable {
                     a.show();
                 }
             }
+        //Si actualizo un empleado    
         } else {
             if (chequear() == true) {
                 String razonSocial = txtRazonSocial.getText();
                 String cuit = txtCuit.getText();
                 String direccion = txtDireccion.getText();
                 String telefono = txtTelefono.getText();
-                
+
                 try {
                     controladoraProductor = new ControladoraProductor();
                     controladoraProductor.actualizarProductor(productorSeleccionado.getLegajo(),
                             razonSocial, cuit, direccion, telefono);
-                    
+
                     // create a alert
                     Alert a = new Alert(AlertType.INFORMATION);
                     a.setTitle("Exito");
@@ -270,6 +296,7 @@ public class InterfazProductorController implements Initializable {
                     a.setContentText("Productor actualizado correctamente");
                     a.show();
                     limpiar();
+                    isEdit = false;
                     txtRazonSocial.requestFocus();
                     txtRazonSocial.selectAll();
                     btnCancelar.setDisable(true);
@@ -288,10 +315,11 @@ public class InterfazProductorController implements Initializable {
 
     @FXML
     void btnCancelarAction(ActionEvent event) {
+        isEdit = false;
         limpiar();
         txtRazonSocial.requestFocus();
         txtRazonSocial.selectAll();
         btnCancelar.setDisable(true);
         btnNuevo.setDisable(false);
-    }    
+    }
 }

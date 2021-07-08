@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="vista.InterfazLoteController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InterfazLoteController">
     
 <children>
       <SplitPane dividerPositions="0.5027027027027027" layoutX="271.0" orientation="VERTICAL" prefHeight="557.0" prefWidth="533.0">
@@ -40,6 +40,8 @@
                   <Button fx:id="btnAgregarLote" layoutX="100.0" layoutY="363.0" mnemonicParsing="false" onAction="#btnAgregarLoteAction" prefHeight="25.0" prefWidth="70.0" text="Guardar" />
                   <Button fx:id="btnCancelarLote" disable="true" layoutX="188.0" layoutY="363.0" mnemonicParsing="false" onAction="#btnCancelarLoteAction" prefHeight="25.0" prefWidth="70.0" text="Cancelar" />
                   <TextArea fx:id="txtNombreLote" layoutX="11.0" layoutY="111.0" prefHeight="57.0" prefWidth="248.0" />
+                  <Label layoutX="192.0" layoutY="19.0" text="ID:" />
+                  <TextField fx:id="txtLoteID" disable="true" layoutX="212.0" layoutY="15.0" prefHeight="25.0" prefWidth="46.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="268.0">
@@ -50,6 +52,8 @@
                   <Label layoutX="10.0" layoutY="10.0" text="CUADROS" />
                   <Label layoutX="10.0" layoutY="35.0" text="Nombre:" />
                   <TextField fx:id="txtNombreCuadro" layoutX="10.0" layoutY="58.0" prefHeight="25.0" prefWidth="248.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Label layoutX="190.0" layoutY="19.0" text="ID:" />
+                  <TextField fx:id="txtCuadroID" disable="true" layoutX="210.0" layoutY="15.0" prefHeight="25.0" prefWidth="46.0" />
                </children>
             </AnchorPane>
         </items>

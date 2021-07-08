@@ -28,7 +28,7 @@ public class CosechaControladoraPersistencia {
             //Insertamos dentro de la BD
             jpaCosecha.create(cosecha);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CosechaControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +39,7 @@ public class CosechaControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaCosecha.edit(cosecha);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CosechaControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -50,7 +50,7 @@ public class CosechaControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaCosecha.edit(cosecha);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CosechaControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -60,7 +60,7 @@ public class CosechaControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaCosecha.modificarKgsCosecha(cosecha);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CosechaControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 }

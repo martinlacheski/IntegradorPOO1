@@ -101,23 +101,7 @@ public class LoteJpaController implements Serializable {
                 productorNew.getLotes().add(lote);
                 productorNew = em.merge(productorNew);
             }
-            for (Cuadro cuadrosOldCuadro : cuadrosOld) {
-                if (!cuadrosNew.contains(cuadrosOldCuadro)) {
-                    cuadrosOldCuadro.setLote(null);
-                    cuadrosOldCuadro = em.merge(cuadrosOldCuadro);
-                }
-            }
-            for (Cuadro cuadrosNewCuadro : cuadrosNew) {
-                if (!cuadrosOld.contains(cuadrosNewCuadro)) {
-                    Lote oldLoteOfCuadrosNewCuadro = cuadrosNewCuadro.getLote();
-                    cuadrosNewCuadro.setLote(lote);
-                    cuadrosNewCuadro = em.merge(cuadrosNewCuadro);
-                    if (oldLoteOfCuadrosNewCuadro != null && !oldLoteOfCuadrosNewCuadro.equals(lote)) {
-                        oldLoteOfCuadrosNewCuadro.getCuadros().remove(cuadrosNewCuadro);
-                        oldLoteOfCuadrosNewCuadro = em.merge(oldLoteOfCuadrosNewCuadro);
-                    }
-                }
-            }
+            
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();

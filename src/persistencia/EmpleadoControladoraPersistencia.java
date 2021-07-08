@@ -7,14 +7,14 @@ import modelo.Empleado;
 public class EmpleadoControladoraPersistencia {
 
     EmpleadoJpaController jpaEmpleado = new EmpleadoJpaController();
-    
+
     //Metodo para listar los empleados actuales en la BD por estado TRUE
     public List<Empleado> listarEmpleados() {
         List<Empleado> listaEmpleados;
         listaEmpleados = jpaEmpleado.findEmpleadoEntities();
         List<Empleado> listaFiltrada = new ArrayList<Empleado>();
         for (Empleado empleado : listaEmpleados) {
-            if (empleado.getEstado() == true){
+            if (empleado.getEstado() == true) {
                 listaFiltrada.add(empleado);
             }
         }
@@ -28,7 +28,7 @@ public class EmpleadoControladoraPersistencia {
             //Insertamos dentro de la BD
             jpaEmpleado.create(empleado);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -39,7 +39,7 @@ public class EmpleadoControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaEmpleado.edit(empleado);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 
@@ -50,7 +50,7 @@ public class EmpleadoControladoraPersistencia {
             //Insertamos dentro de la BD el UPDATE
             jpaEmpleado.edit(empleado);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EmpleadoControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 }

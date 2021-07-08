@@ -75,12 +75,15 @@ public class InterfazEmpleadoController implements Initializable {
 
     @FXML
     private Button btnCancelar;
-    
+
     //Inicializamos variables de contexto
     private ContextMenu cmOpciones;
 
     //Inicializamos variables Objeto para uso interno
     private Empleado empleadoSeleccionado;
+
+    //Creamos una variable Boolean para comprobar si es nuevo empleado o edicion
+    boolean isEdit;
 
     public void limpiar() {
         txtApellido.setText("");
@@ -131,7 +134,7 @@ public class InterfazEmpleadoController implements Initializable {
 
         TableColumn fechaIngresoCol = new TableColumn("Ingreso");
         fechaIngresoCol.setCellValueFactory(new PropertyValueFactory<Empleado, LocalDate>("fechaIngreso"));
-        
+
         //Seteamos los valores del listado
         tablaEmpleados.setItems(data);
         tablaEmpleados.getColumns().addAll(idCol, apellidoCol, nombresCol, cuilCol, direccionCol, telefonoCol, fechaNacimientoCol, fechaIngresoCol);
@@ -209,11 +212,37 @@ public class InterfazEmpleadoController implements Initializable {
             a.show();
             dateFechaIngreso.requestFocus();
         }
+        if ((dateFechaNacimiento.getValue().isAfter(dateFechaIngreso.getValue()))) {
+            chequear = false;
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setHeaderText(null);
+            a.setContentText("La fecha de Nacimiento debe ser anterior que la de ingreso");
+            a.show();
+        } 
+        if (isEdit == false) {
+            ///CHEQUEAMOS QUE NO SE HAYA REGISTRADO UN EMPLEADO CON EL MISMO CUIL
+            controladoraEmpleado = new ControladoraEmpleado();
+            //Obtenemos el listado de elementos
+            // asociamos los datos
+            List<Empleado> empleados = this.controladoraEmpleado.listarEmpleados();
+            for (Empleado empleado : empleados) {
+                if (empleado.getCuil().equals(cuil)) {
+                    chequear = false;
+                    Alert a = new Alert(AlertType.ERROR);
+                    a.setHeaderText("El CUIL ya se encuentra registrado");
+                    a.show();
+                    txtCuil.requestFocus();
+                    break;
+                }
+            }
+        }
         return chequear;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        isEdit = false;
         limpiar();
         listarEmpleados();
 
@@ -242,6 +271,7 @@ public class InterfazEmpleadoController implements Initializable {
                 dateFechaNacimiento.setValue(LocalDate.parse(empleadoSeleccionado.getFechaNacimiento().toString(), formatter));
                 dateFechaIngreso.setValue(LocalDate.parse(empleadoSeleccionado.getFechaIngreso().toString(), formatter));
 
+                isEdit = true;
                 btnCancelar.setDisable(false);
                 btnNuevo.setDisable(true);
             }
@@ -304,7 +334,8 @@ public class InterfazEmpleadoController implements Initializable {
 
     @FXML
     private void btnAgregarAction(javafx.event.ActionEvent event) {
-
+        
+        //Si es un nuevo empleado
         if (empleadoSeleccionado == null) {
             if (chequear() == true) {
                 // Cargo en variables los datos obtenidos de la interfaz       
@@ -322,7 +353,7 @@ public class InterfazEmpleadoController implements Initializable {
                 try {
                     //Invocamos al metodo de la controladora para dar de alta un nuevo Empleado
                     controladoraEmpleado = new ControladoraEmpleado();
-                    controladoraEmpleado.altaEmpleado(apellido, nombres, cuil, 
+                    controladoraEmpleado.altaEmpleado(apellido, nombres, cuil,
                             direccion, telefono, fechaNacimiento, fechaIngreso);
 
                     // create a alert
@@ -343,6 +374,8 @@ public class InterfazEmpleadoController implements Initializable {
                     a.show();
                 }
             }
+            
+        //Si actualizo un empleado
         } else {
             if (chequear() == true) {
                 String apellido = txtApellido.getText();
@@ -357,7 +390,7 @@ public class InterfazEmpleadoController implements Initializable {
 
                 try {
                     controladoraEmpleado = new ControladoraEmpleado();
-                    controladoraEmpleado.actualizarEmpleado(empleadoSeleccionado.getLegajo(), 
+                    controladoraEmpleado.actualizarEmpleado(empleadoSeleccionado.getLegajo(),
                             apellido, nombres, cuil, direccion, telefono, fechaNacimiento, fechaIngreso);
 
                     // create a alert
@@ -367,6 +400,7 @@ public class InterfazEmpleadoController implements Initializable {
                     a.setContentText("Empleado actualizado correctamente");
                     a.show();
                     limpiar();
+                    isEdit = false;
                     txtApellido.requestFocus();
                     txtApellido.selectAll();
                     btnCancelar.setDisable(true);
@@ -385,6 +419,7 @@ public class InterfazEmpleadoController implements Initializable {
 
     @FXML
     private void btnCancelarAction(javafx.event.ActionEvent event) {
+        isEdit = false;
         limpiar();
         txtApellido.requestFocus();
         txtApellido.selectAll();
@@ -396,21 +431,19 @@ public class InterfazEmpleadoController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/VistaPrincipal.fxml"));
             //Genero una ruta absoluta de la vista con lo siguiente:
-            
+
             Parent root = loader.load();
-            
+
             VistaPrincipalController controlador = loader.getController();
-            
+
             //URI uri = Paths.get("src/vista/InterfazEmpleado.fxml").toAbsolutePath().toUri();
             //Parent root;
             //root = FXMLLoader.load(uri.toURL());
-            
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.show();  
-            
-            
+            stage.show();
+
         } catch (MalformedURLException ex) {
             Logger.getLogger(VistaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
