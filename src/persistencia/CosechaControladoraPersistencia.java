@@ -53,4 +53,14 @@ public class CosechaControladoraPersistencia {
             java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
+
+    public void modificarKgsCosecha(Cosecha cosecha) {
+        //Utilizamos el TRY por si hay algun problema
+        try {
+            //Insertamos dentro de la BD el UPDATE
+            jpaCosecha.modificarKgsCosecha(cosecha);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ClaseControladoraPersistencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -34,7 +34,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import logica.ControladoraEmpleado;
+import controlador.ControladoraEmpleado;
 import modelo.Empleado;
 
 public class InterfazEmpleadoController implements Initializable {

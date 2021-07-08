@@ -27,12 +27,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
-import logica.ControladoraCosecha;
-import logica.ControladoraCuadro;
-import logica.ControladoraDetalleCosecha;
-import logica.ControladoraEmpleado;
-import logica.ControladoraLote;
-import logica.ControladoraProductor;
+import controlador.ControladoraCosecha;
+import controlador.ControladoraCuadro;
+import controlador.ControladoraDetalleCosecha;
+import controlador.ControladoraEmpleado;
+import controlador.ControladoraLote;
+import controlador.ControladoraProductor;
 import modelo.Cosecha;
 import modelo.Cuadro;
 import modelo.DetalleCosecha;
@@ -209,7 +209,7 @@ public class InterfazCosechaController implements Initializable {
 
     public void limpiarCosecha() {
         dateFecha.setValue(LocalDate.now());
-        
+
         cmbProductor.getItems().remove(0, cmbProductor.getItems().size());
         cmbProductor.getItems().clear();
         listarProductores();
@@ -232,7 +232,7 @@ public class InterfazCosechaController implements Initializable {
 
     private boolean chequearCosecha() {
         var chequearCosecha = true;
-        // Cargo en variables los datos obtenidos de la interfaz       
+        // Cargo en variables los datos obtenidos de la interfaz
         Productor productor = productorSeleccionado;
         Lote lote = loteSeleccionado;
         if (productor == null) {
@@ -260,6 +260,20 @@ public class InterfazCosechaController implements Initializable {
             a.setHeaderText("Revise la Fecha");
             a.show();
             dateFecha.requestFocus();
+        }
+        try {
+            Double kilosSecadero = Double.parseDouble(txtSecadero.getText());
+            if (kilosSecadero == 0) {
+                chequearCosecha = false;
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setHeaderText("Debe ingresar el kilo obtenido en Secadero");
+                a.show();
+            }
+        } catch (Exception ex) {
+            chequearCosecha = false;
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText("Debe ingresar el kilo obtenido en Secadero");
+            a.show();
         }
         return chequearCosecha;
     }
@@ -299,30 +313,45 @@ public class InterfazCosechaController implements Initializable {
         return chequearDetalle;
     }
 
-    /*public void actualizarKgCosechas() {
+    ///ACA ESTA EL CORE
+    public void actualizarKgCosechas() {
         controladoraCosecha = new ControladoraCosecha();
         controladoraDetalleCosecha = new ControladoraDetalleCosecha();
         //Actualizamos los kilos de las cosechas por cada cosecha
         List<Cosecha> cosechas = this.controladoraCosecha.listarCosechas();
         List<DetalleCosecha> detalleCosechas = this.controladoraDetalleCosecha.listarDetalleCosecha();
         double kilosTotales;
-        double kilosCosecha;
         for (Cosecha cosecha : cosechas) {
             kilosTotales = 0;
-            kilosCosecha = 0;
             for (DetalleCosecha detalleCosecha : detalleCosechas) {
-                System.out.println(cosecha.getIdCosecha());
-                //kilosTotales = kilosTotales + detalleCosecha.getKgsEmpleado();               
-                    if (detalleCosecha.getCosecha().getIdCosecha() == cosecha.getIdCosecha()) {
-                        kilosTotales = kilosTotales + detalleCosecha.getKgsEmpleado();
-                    }
-
+                if (detalleCosecha.getCosecha().getIdCosecha() == cosecha.getIdCosecha()) {
+                    kilosTotales = kilosTotales + detalleCosecha.getKgsEmpleado();
+                }
             }
-            System.out.println("Cosecha: " + cosecha.getIdCosecha() + ", " + kilosTotales);
-            kilosCosecha = kilosTotales - cosecha.getKgsSecadero();
-            this.controladoraCosecha.actualizarCosecha(cosecha.getIdCosecha(), cosecha.getFechaCosecha(), cosecha.getLote(), kilosTotales, cosecha.getKgsSecadero(), kilosCosecha);
+
+            int id = cosecha.getIdCosecha();
+            LocalDate fecha = cosecha.getFechaCosecha();
+            Lote lote = cosecha.getLote();
+            //kilosCosechaCampo = kilosTotales;
+            Double secadero = cosecha.getKgsSecadero();
+            Double diferencia = kilosTotales - secadero;
+            this.controladoraCosecha.actualizarKgsCosecha(id, fecha, lote, kilosTotales, secadero, diferencia);
         }
-    }*/
+        if (!txtCosechaID.getText().isEmpty()) {
+           int id = Integer.parseInt(txtCosechaID.getText());
+           List<Cosecha> cosechaActual = this.controladoraCosecha.listarCosechas();
+           for (Cosecha cosecha : cosechaActual) {
+                if (cosecha.getIdCosecha() == id) {
+                    cosechaSeleccionado = cosecha;
+                    break;
+                }
+            } 
+           txtCampo.setText(String.valueOf(cosechaSeleccionado.getKgsCampo()));
+           txtSecadero.setText(String.valueOf(cosechaSeleccionado.getKgsSecadero()));
+           txtDiferencia.setText(String.valueOf(cosechaSeleccionado.getKgsCosecha()));
+        }
+    }
+
     public void listarCosechas() {
         controladoraCosecha = new ControladoraCosecha();
 
@@ -361,34 +390,6 @@ public class InterfazCosechaController implements Initializable {
         tablaCosecha.getColumns().addAll(idCol, fechaCol, loteCol, campoCol, secaderoCol, difCol);
         int cosechaID = tablaCosecha.getItems().size();
         cosechaGuardado = tablaCosecha.getItems().get(cosechaID - 1);
-    }
-
-    private void listarKgCosecha() {
-        controladoraDetalleCosecha = new ControladoraDetalleCosecha();
-        //Obtenemos el listado de elementos
-        // asociamos los datos
-        List<DetalleCosecha> detalleCosechas = this.controladoraDetalleCosecha.listarDetalleCosecha();
-        //Filtramos los cuadros que pertenecen al Lote seleccionado
-        //Actualizo los kilos de la cosecha
-        double kilosTotales = 0;
-        for (DetalleCosecha detalleCosecha : detalleCosechas) {
-            if (detalleCosecha.getCosecha().getIdCosecha() == Integer.parseInt(txtCosechaID.getText())) {
-                if (detalleCosecha.getEstado() == true) {
-                    kilosTotales = kilosTotales + detalleCosecha.getKgsEmpleado();
-                }
-            }
-        }
-        //Seteamos en Kilos Campo el valor de la iteracion
-        kilosCosechaCampo = kilosTotales;
-        cosechaSeleccionado.setKgsCampo(kilosTotales);
-        txtCampo.setText(String.valueOf(cosechaSeleccionado.getKgsCampo()));
-        cosechaSeleccionado.setKgsSecadero(Double.parseDouble(txtCampo.getText()));
-
-        Double kgsCampo = cosechaSeleccionado.getKgsCampo();
-        Double kgsSecadero = cosechaSeleccionado.getKgsSecadero();
-        Double kgsCosecha = kgsCampo - kgsSecadero;
-        cosechaSeleccionado.setKgsCosecha(kgsCosecha);
-        txtDiferencia.setText(String.valueOf(cosechaSeleccionado.getKgsCosecha()));
     }
 
     private void listarDetalle() {
@@ -431,6 +432,7 @@ public class InterfazCosechaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        actualizarKgCosechas();
         //Asignamos NOW a la fecha por defecto
         dateFecha.setValue(LocalDate.now());
         //Asingamos valores por defecto a los txt de kilos
@@ -497,6 +499,8 @@ public class InterfazCosechaController implements Initializable {
                         txtCosechaID.setText("");
                         limpiarCosecha();
                         cmbProductor.requestFocus();
+                        //Actualizamos el kilaje de la cosecha
+                        actualizarKgCosechas();
                         listarCosechas();
                         listarProductores();
                         listarEmpleados();
@@ -555,7 +559,7 @@ public class InterfazCosechaController implements Initializable {
                         controladoraDetalleCosecha.eliminarDetalleCosecha(Integer.parseInt(txtDetalleCosechaID.getText()),
                                 cosechaSeleccionado, cmbCuadro.getValue(), cmbEmpleado.getValue(), kilos);
                         //Actualizo el total de kilos de la cosecha
-                        listarKgCosecha();
+                        actualizarKgCosechas();
                         // create a alert
                         a = new Alert(Alert.AlertType.INFORMATION);
                         a.setTitle("Exito");
@@ -657,6 +661,7 @@ public class InterfazCosechaController implements Initializable {
                     listarProductores();
                     listarCosechas();
                     cmbProductor.requestFocus();
+                    actualizarKgCosechas();
                 } catch (Exception ex) {
                     Alert a = new Alert(Alert.AlertType.ERROR);
                     a.setTitle("Error");
@@ -672,13 +677,13 @@ public class InterfazCosechaController implements Initializable {
                 LocalDate fecha = dateFecha.getValue();
                 Lote lote = cmbLote.getValue();
                 Double kgsCampo = Double.parseDouble(txtCampo.getText());
-                Double kgsSecadero = Double.parseDouble(txtCampo.getText());
-                Double kgsCosecha = kgsCampo - kgsSecadero;
+                Double kgsSecadero = Double.parseDouble(txtSecadero.getText());
+                Double kgsDiferencia = Double.parseDouble(txtDiferencia.getText());
                 try {
                     controladoraCosecha = new ControladoraCosecha();
                     //Invocamos al metodo de la controladora para actualiar una cosecha
                     controladoraCosecha.actualizarCosecha(Integer.parseInt(txtCosechaID.getText()),
-                            fecha, lote, kgsCampo, kgsSecadero, kgsCosecha);
+                            fecha, lote, kgsCampo, kgsSecadero, kgsDiferencia);
 
                     // create a alert
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -689,6 +694,8 @@ public class InterfazCosechaController implements Initializable {
                     limpiarCosecha();
                     listarProductores();
                     cmbProductor.requestFocus();
+                    //Actualizamos el kilaje de la cosecha
+                    actualizarKgCosechas();
                     listarCosechas();
                 } catch (Exception ex) {
                     Alert a = new Alert(Alert.AlertType.ERROR);
@@ -742,6 +749,8 @@ public class InterfazCosechaController implements Initializable {
                     a.setContentText("Detalle registrado correctamente");
                     a.show();
                     limpiarDetalle();
+                    //Actualizamos el kilaje de la cosecha
+                    actualizarKgCosechas();
                     listarCosechas();
                     listarDetalle();
                     listarEmpleados();
@@ -765,7 +774,6 @@ public class InterfazCosechaController implements Initializable {
                     //Invocamos al metodo de la controladora para actualizar un Detalle Cosecha
                     controladoraDetalleCosecha.actualizarDetalleCosecha(Integer.parseInt(txtDetalleCosechaID.getText()),
                             cosechaSeleccionado, cmbCuadro.getValue(), cmbEmpleado.getValue(), kilos);
-                    listarKgCosecha();
                     // create a alert
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Exito");
@@ -774,6 +782,8 @@ public class InterfazCosechaController implements Initializable {
                     a.show();
                     limpiarDetalle();
                     cmbEmpleado.requestFocus();
+                    //Actualizamos el kilaje de la cosecha
+                    actualizarKgCosechas();
                     listarCosechas();
                     listarDetalle();
                     listarEmpleados();
@@ -801,7 +811,8 @@ public class InterfazCosechaController implements Initializable {
 
     @FXML
     void txtSecaderoAction(InputMethodEvent event) {
-        listarKgCosecha();
+        //Actualizamos el kilaje de la cosecha
+        actualizarKgCosechas();
     }
 
 }

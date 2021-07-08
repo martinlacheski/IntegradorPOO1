@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.StageStyle;
-import logica.ControladoraProductor;
+import controlador.ControladoraProductor;
 import modelo.Productor;
 
 public class InterfazProductorController implements Initializable {

@@ -62,6 +62,20 @@ public class CosechaJpaController implements Serializable {
             }
         }
     }
+    
+    public void modificarKgsCosecha(Cosecha cosecha){
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(cosecha);
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception ex) {
+            
+        }
+        
+    }
 
     public void edit(Cosecha cosecha) throws NonexistentEntityException, Exception {
         EntityManager em = null;
